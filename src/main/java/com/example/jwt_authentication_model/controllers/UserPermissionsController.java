@@ -15,7 +15,7 @@ public class UserPermissionsController {
     @Autowired
     private UserPermissionsService userPermissionsService;
 
-    @GetMapping
+    @GetMapping(value = "/")
     public List<UserPermission> findAllPermissions() {
         return userPermissionsService.findAll();
     }
@@ -25,12 +25,12 @@ public class UserPermissionsController {
         return userPermissionsService.findById(id);
     }
 
-    @PostMapping
+    @PostMapping(value = "/")
     public UserPermission createPermission(@RequestBody UserPermissionCreateDTO permission) {
         return userPermissionsService.create(permission);
     }
 
-    @PutMapping
+    @PutMapping(value = "/")
     public UserPermission updatePermission(@RequestBody UserPermission permission) throws Exception {
         return userPermissionsService.update(permission);
     }
