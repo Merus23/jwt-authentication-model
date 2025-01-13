@@ -1,0 +1,50 @@
+package com.example.jwt_authentication_model.services;
+
+import com.example.jwt_authentication_model.dtos.UserPermissions.UserPermissionCreateDTO;
+import com.example.jwt_authentication_model.models.UserPermission;
+import com.example.jwt_authentication_model.repositoties.UserPermissionsRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class UserPermissionsService {
+    @Autowired
+    private UserPermissionsRepository userPermissionsRepository;
+
+    public List<UserPermission> findAll(){
+       return userPermissionsRepository.findAll();
+    }
+
+    public UserPermission findById(Long id){
+        return userPermissionsRepository.findById(id).orElseThrow(()-> new RuntimeException("Permission not found!"));
+    }
+
+    public UserPermission create(UserPermissionCreateDTO permission){
+        UserPermission entity = new UserPermission();
+
+        entity.setDescription(permission.description());
+        entity.setName(permission.name());
+
+        return userPermissionsRepository.save(entity);
+    }
+
+    public UserPermission update(UserPermission permission) throws Exception{
+        if(permission.getId() == null) throw new IllegalArgumentException("O permission id cannot be null");
+        UserPermission entity = findById(permission.getId());
+
+        entity.setName(permission.getName());
+        entity.setDescription(permission.getDescription());
+
+        return userPermissionsRepository.save(entity);
+    }
+
+    public void delete (Long id){
+        UserPermission permission = userPermissionsRepository.findById(id).orElseThrow(()->new RuntimeException("Permission not found"));
+        userPermissionsRepository.delete(permission);
+    }
+
+
+
+}
