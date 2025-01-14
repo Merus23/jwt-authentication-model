@@ -1,6 +1,6 @@
 package com.example.jwt_authentication_model.services;
 
-import com.example.jwt_authentication_model.dtos.UserPermissions.UserPermissionCreateDTO;
+import com.example.jwt_authentication_model.dtos.UserPermissions.UserPermissionRequestDTO;
 import com.example.jwt_authentication_model.models.UserPermission;
 import com.example.jwt_authentication_model.repositoties.UserPermissionsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,11 @@ public class UserPermissionsService {
         return userPermissionsRepository.findById(id).orElseThrow(()-> new RuntimeException("Permission not found!"));
     }
 
-    public UserPermission create(UserPermissionCreateDTO permission){
+    public UserPermission findByName(String name){
+        return  userPermissionsRepository.findByName(name).orElseThrow(()-> new RuntimeException("Permission not found!"));
+    }
+
+    public UserPermission create(UserPermissionRequestDTO permission){
         UserPermission entity = new UserPermission();
 
         entity.setDescription(permission.description());

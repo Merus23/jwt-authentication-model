@@ -1,7 +1,6 @@
 package com.example.jwt_authentication_model.controllers;
 
-import com.example.jwt_authentication_model.dtos.UserPermissions.UserPermissionCreateDTO;
-import com.example.jwt_authentication_model.models.User;
+import com.example.jwt_authentication_model.dtos.UserPermissions.UserPermissionRequestDTO;
 import com.example.jwt_authentication_model.models.UserPermission;
 import com.example.jwt_authentication_model.services.UserPermissionsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +28,7 @@ public class UserPermissionsController {
     }
 
     @PostMapping(value = "/")
-    public ResponseEntity<UserPermission> createPermission(@RequestBody UserPermissionCreateDTO permission) {
+    public ResponseEntity<UserPermission> createPermission(@RequestBody UserPermissionRequestDTO permission) {
         return ResponseEntity.status(HttpStatus.CREATED).body(userPermissionsService.create(permission));
     }
 
