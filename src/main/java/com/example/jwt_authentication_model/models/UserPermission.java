@@ -18,7 +18,7 @@ public class UserPermission {
     private String description;
 
     public UserPermission(String name, String description) {
-        this.name = name;
+        this.name = name.toLowerCase();
         this.description = description;
     }
 
@@ -38,7 +38,7 @@ public class UserPermission {
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = name.toLowerCase();
     }
 
     public String getDescription() {
