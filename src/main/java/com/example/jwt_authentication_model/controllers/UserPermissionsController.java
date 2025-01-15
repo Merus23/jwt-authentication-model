@@ -38,7 +38,7 @@ public class UserPermissionsController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deletePermission(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<HttpStatus> deletePermission(@PathVariable(value = "id") Long id) {
         userPermissionsService.delete(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
