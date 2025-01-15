@@ -39,14 +39,14 @@ public class UserService {
         return userRepository.save(entity);
     }
 
-    public User update(User user){
-        if (user.getId() == null) throw new IllegalArgumentException("The user id cannot be null");
+    public User update(UserRequestDTO user){
+        if (user.id() == null) throw new IllegalArgumentException("The user id cannot be null");
 
-        User entity = findById(user.getId());
-        entity.setName(user.getName());
-        entity.setEmail(user.getEmail());
-        entity.setPassword(user.getPassword());
-        UserPermission permission = userPermissionsRepository.findByName(user.getPermission().getName()).orElseThrow();
+        User entity = findById(user.id().orElseThrow());
+        entity.setName(user.name());
+        entity.setEmail(user.email());
+        entity.setPassword(user.password());
+        UserPermission permission = userPermissionsRepository.findByName(user.permission()).orElseThrow();
         entity.setPermission(permission);
 
         return userRepository.save(entity);
