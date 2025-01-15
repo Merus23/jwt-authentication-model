@@ -1,9 +1,7 @@
 package com.example.jwt_authentication_model.controllers;
 
 import com.example.jwt_authentication_model.dtos.User.UserRequestDTO;
-import com.example.jwt_authentication_model.dtos.UserPermissions.UserPermissionRequestDTO;
 import com.example.jwt_authentication_model.models.User;
-import com.example.jwt_authentication_model.models.UserPermission;
 import com.example.jwt_authentication_model.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
