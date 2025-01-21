@@ -2,6 +2,8 @@ package com.example.jwt_authentication_model.controllers;
 
 import com.example.jwt_authentication_model.dtos.request.LoginRequestDTO;
 import com.example.jwt_authentication_model.dtos.request.UserRequestDTO;
+import com.example.jwt_authentication_model.dtos.response.LoginResponseDTO;
+import com.example.jwt_authentication_model.infra.security.TokenService;
 import com.example.jwt_authentication_model.models.User;
 import com.example.jwt_authentication_model.models.UserPermission;
 import com.example.jwt_authentication_model.repositoties.UserPermissionsRepository;
@@ -26,15 +28,21 @@ public class AuthenticationController {
 
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    UserPermissionsRepository userPermissionsRepository;
 
+    @Autowired
+    private UserPermissionsRepository userPermissionsRepository;
+
+    @Autowired
+    private TokenService tokenService;
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody LoginRequestDTO loginRequest) {
+    public ResponseEntity login(@RequestBody LoginRequestDTO loginRequest) throws Exception {
         var usernamePassword = new UsernamePasswordAuthenticationToken(loginRequest.name(), loginRequest.password());
         var auth = this.authenticationManager.authenticate(usernamePassword);
-        return ResponseEntity.ok().build();
+
+        var token = this.tokenService.generateToken((User) auth.getPrincipal());
+
+        return ResponseEntity.ok(new LoginResponseDTO(token));
     }
 
     @PostMapping("/register")
