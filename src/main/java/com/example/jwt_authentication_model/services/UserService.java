@@ -1,6 +1,6 @@
 package com.example.jwt_authentication_model.services;
 
-import com.example.jwt_authentication_model.dtos.User.UserRequestDTO;
+import com.example.jwt_authentication_model.dtos.request.UserRequestDTO;
 import com.example.jwt_authentication_model.models.User;
 import com.example.jwt_authentication_model.models.UserPermission;
 import com.example.jwt_authentication_model.repositoties.UserPermissionsRepository;

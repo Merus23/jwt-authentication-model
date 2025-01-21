@@ -1,6 +1,6 @@
 package com.example.jwt_authentication_model.services;
 
-import com.example.jwt_authentication_model.dtos.UserPermissions.UserPermissionRequestDTO;
+import com.example.jwt_authentication_model.dtos.request.UserPermissionRequestDTO;
 import com.example.jwt_authentication_model.models.UserPermission;
 import com.example.jwt_authentication_model.repositoties.UserPermissionsRepository;
 import org.springframework.beans.factory.annotation.Autowired;

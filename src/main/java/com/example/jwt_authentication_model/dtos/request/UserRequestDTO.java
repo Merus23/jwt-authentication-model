@@ -1,4 +1,4 @@
-package com.example.jwt_authentication_model.dtos.User;
+package com.example.jwt_authentication_model.dtos.request;
 
 import java.util.Optional;
 
