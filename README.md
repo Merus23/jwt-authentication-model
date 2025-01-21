@@ -60,6 +60,10 @@ spring:
   application:
     name={your-application-name}
 
+  flyway:
+    baseline-on-migrate: true
+    baseline-version: 1
+
   datasource:
     driver-class-name: {your-database-driver} 
     url: {your-database-url}
