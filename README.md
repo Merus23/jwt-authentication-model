@@ -54,7 +54,13 @@ public record LoginRequestDTO(String email, String password) {
 ```
 
 
-## application.yml
+## Your `application.yml`
+Create file `application.yml` in `src/main/resources` directory.
+```bash
+touch src/main/resources/application.yml
+```
+
+Add the following configuration to your `application.yml` file:
 ```yml
 spring:
   application:
