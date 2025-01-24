@@ -21,11 +21,11 @@ The project uses Flyway to manage the database schema. The migration files are l
 
 ## Customizing your Authentication
 By default, the authentication is done by the username and his password.
-You can change it, by implementing the `UserDetailsService` interface and override the `loadUserByUsername` method (e.g.: for use his email).
-You need change the LoginRequestDTO and the AuthenticationController to use the new implementation.
+You can change it, by implementing the `UserDetailsService` interface, at the `AuthorizationConfiguration.java` file, and override the `loadUserByUsername` method (e.g.: for use his email).
+You need change the `LoginRequestDTO.java` and the `AuthenticationService.java` to use the new implementation.
 You can find this files at:
 
-UserDetailService: `src/main/java/com/example/jwt_authentication_model/services/UserDetailsServiceImpl.java`
+UserDetailService: `src/main/java/com/example/jwt_authentication_model/services/AuthorizationConfiguration.java`
 ```java
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -34,17 +34,13 @@ UserDetailService: `src/main/java/com/example/jwt_authentication_model/services/
     }
 ```
 
-AuthenticationController: `src/main/java/com/example/jwt_authentication_model/controllers/AuthenticationController.java`
+AuthenticationService.java: `src/main/java/com/example/jwt_authentication_model/services/AuthenticationService.java`
 ```java
-@PostMapping("/login")
-    public ResponseEntity login(@RequestBody LoginRequestDTO loginRequest) throws Exception {
-        var usernamePassword = new UsernamePasswordAuthenticationToken(loginRequest.email(), loginRequest.password());
-        var auth = this.authenticationManager.authenticate(usernamePassword);
-
-        var token = this.tokenService.generateToken((User) auth.getPrincipal());
-
-        return ResponseEntity.ok(new LoginResponseDTO(token));
-    }
+public String authentication(LoginRequestDTO loginRequest) throws Exception {
+  UsernamePasswordAuthenticationToken usernamePassword = new UsernamePasswordAuthenticationToken(loginRequest.email(), loginRequest.password());
+  Authentication auth = this.authenticationManager.authenticate(usernamePassword);
+  return this.tokenService.generateToken((User) auth.getPrincipal());
+}
 ```
 
 LoginRequestDTO: `src/main/java/com/example/jwt_authentication_model/dto/request/LoginRequestDTO.java`
