@@ -3,15 +3,17 @@ package com.example.jwt_authentication_model.services;
 import com.example.jwt_authentication_model.dtos.request.UserPermissionRequestDTO;
 import com.example.jwt_authentication_model.models.UserPermission;
 import com.example.jwt_authentication_model.repositoties.UserPermissionsRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class UserPermissionsService {
-    @Autowired
-    private UserPermissionsRepository userPermissionsRepository;
+    private final UserPermissionsRepository userPermissionsRepository;
+
+    public UserPermissionsService(UserPermissionsRepository userPermissionsRepository) {
+        this.userPermissionsRepository = userPermissionsRepository;
+    }
 
     public List<UserPermission> findAll(){
        return userPermissionsRepository.findAll();
@@ -48,7 +50,4 @@ public class UserPermissionsService {
         UserPermission permission = userPermissionsRepository.findById(id).orElseThrow(()->new RuntimeException("Permission not found"));
         userPermissionsRepository.delete(permission);
     }
-
-
-
 }
