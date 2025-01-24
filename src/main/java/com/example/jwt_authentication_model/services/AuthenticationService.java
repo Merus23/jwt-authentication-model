@@ -34,7 +34,7 @@ public class AuthenticationService {
         return this.tokenService.generateToken((User) auth.getPrincipal());
     }
 
-    public String registerNewUserAndAuthente(UserRequestDTO userRequestDTO) throws Exception {
+    public String registerNewUserAndAuthenticate(UserRequestDTO userRequestDTO) throws Exception {
         if(this.userRepository.findByEmail(userRequestDTO.email()).isPresent()) {
             throw new RuntimeException("Email already registered");
         }

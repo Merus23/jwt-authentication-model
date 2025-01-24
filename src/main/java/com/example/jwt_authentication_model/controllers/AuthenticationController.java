@@ -29,7 +29,7 @@ public class AuthenticationController {
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody UserRequestDTO userRequestDTO) {
         try {
-            return ResponseEntity.status(HttpStatus.CREATED).body(authenticationService.registerNewUserAndAuthente(userRequestDTO));
+            return ResponseEntity.status(HttpStatus.CREATED).body(authenticationService.registerNewUserAndAuthenticate(userRequestDTO));
         }catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
