@@ -7,7 +7,6 @@ import com.example.jwt_authentication_model.models.User;
 import com.example.jwt_authentication_model.models.UserPermission;
 import com.example.jwt_authentication_model.repositoties.UserPermissionsRepository;
 import com.example.jwt_authentication_model.repositoties.UserRepository;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
