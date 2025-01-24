@@ -20,8 +20,8 @@ This is a simple project that demonstrates how to use JWT for authentication in 
 The project uses Flyway to manage the database schema. The migration files are located in the `src/main/resources/db/migration` directory.
 
 ## Customizing your Authentication
-By default, the authentication is done by the username and his password.
-You can change it, by implementing the `UserDetailsService` interface, at the `AuthorizationConfiguration.java` file, and override the `loadUserByUsername` method (e.g.: for use his email).
+By default, the authentication is done by the email and his password.
+You can change it, by implementing the `UserDetailsService` interface, at the `AuthorizationConfiguration.java` file, and override the `loadUserByUsername` method (e.g.: for use his username).
 You need change the `LoginRequestDTO.java` and the `AuthenticationService.java` to use the new implementation.
 You can find this files at:
 
