@@ -3,17 +3,9 @@ package com.example.jwt_authentication_model.controllers;
 import com.example.jwt_authentication_model.dtos.request.LoginRequestDTO;
 import com.example.jwt_authentication_model.dtos.request.UserRequestDTO;
 import com.example.jwt_authentication_model.dtos.response.LoginResponseDTO;
-import com.example.jwt_authentication_model.infra.security.TokenService;
-import com.example.jwt_authentication_model.models.User;
-import com.example.jwt_authentication_model.models.UserPermission;
-import com.example.jwt_authentication_model.repositoties.UserPermissionsRepository;
-import com.example.jwt_authentication_model.repositoties.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.jwt_authentication_model.services.AuthenticationService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,40 +15,23 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/auth")
 public class AuthenticationController {
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationService authenticationService;
 
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private UserPermissionsRepository userPermissionsRepository;
-
-    @Autowired
-    private TokenService tokenService;
+    public AuthenticationController(AuthenticationService authenticationService) {
+        this.authenticationService = authenticationService;
+    }
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody LoginRequestDTO loginRequest) throws Exception {
-        var usernamePassword = new UsernamePasswordAuthenticationToken(loginRequest.email(), loginRequest.password());
-        var auth = this.authenticationManager.authenticate(usernamePassword);
-
-        var token = this.tokenService.generateToken((User) auth.getPrincipal());
-
-        return ResponseEntity.ok(new LoginResponseDTO(token));
+    public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO loginRequest) throws Exception {
+        return ResponseEntity.status(HttpStatus.OK).body(new LoginResponseDTO(authenticationService.authentication(loginRequest)));
     }
 
     @PostMapping("/register")
-    public ResponseEntity register(@RequestBody UserRequestDTO userRequestDTO) {
-
-        if(this.userRepository.findByEmail(userRequestDTO.email()).isPresent()) return ResponseEntity.badRequest().body("Email already registered");
-
-        String encryptedPassword = new BCryptPasswordEncoder().encode(userRequestDTO.password());
-        UserPermission permission = this.userPermissionsRepository.findByName(userRequestDTO.permission()).orElseThrow(()-> new RuntimeException("Permission not found"));
-
-        User newUser = new User(userRequestDTO.name(), userRequestDTO.email(), encryptedPassword, permission);
-        this.userRepository.save(newUser);
-
-        return ResponseEntity.ok().build();
+    public ResponseEntity<String> register(@RequestBody UserRequestDTO userRequestDTO) {
+        try {
+            return ResponseEntity.status(HttpStatus.CREATED).body(authenticationService.registerNewUserAndAuthente(userRequestDTO));
+        }catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
-
 }
