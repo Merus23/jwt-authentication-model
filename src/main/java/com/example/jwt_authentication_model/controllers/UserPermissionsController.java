@@ -3,19 +3,19 @@ package com.example.jwt_authentication_model.controllers;
 import com.example.jwt_authentication_model.dtos.request.UserPermissionRequestDTO;
 import com.example.jwt_authentication_model.models.UserPermission;
 import com.example.jwt_authentication_model.services.UserPermissionsService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
 @RequestMapping("/config/permissions")
 public class UserPermissionsController {
+    private final UserPermissionsService userPermissionsService;
 
-    @Autowired
-    private UserPermissionsService userPermissionsService;
+    public UserPermissionsController(UserPermissionsService userPermissionsService) {
+        this.userPermissionsService = userPermissionsService;
+    }
 
     @GetMapping(value = "/")
     public ResponseEntity<List<UserPermission>> findAllPermissions() {
