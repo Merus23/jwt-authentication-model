@@ -37,7 +37,7 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody LoginRequestDTO loginRequest) throws Exception {
-        var usernamePassword = new UsernamePasswordAuthenticationToken(loginRequest.name(), loginRequest.password());
+        var usernamePassword = new UsernamePasswordAuthenticationToken(loginRequest.email(), loginRequest.password());
         var auth = this.authenticationManager.authenticate(usernamePassword);
 
         var token = this.tokenService.generateToken((User) auth.getPrincipal());
