@@ -1,4 +1,4 @@
-package com.example.jwt_authentication_model.services;
+package com.example.jwt_authentication_model.infra.security;
 
 import com.example.jwt_authentication_model.repositoties.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -7,11 +7,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AuthorizationService implements UserDetailsService {
+public class AuthorizationConfigiguration implements UserDetailsService {
 
     private final UserRepository userRepository;
 
-    public AuthorizationService(UserRepository userRepository) {
+    public AuthorizationConfigiguration(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
