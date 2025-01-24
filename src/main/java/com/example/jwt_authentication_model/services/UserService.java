@@ -13,11 +13,13 @@ import java.util.List;
 @Service
 public class UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final UserPermissionsRepository userPermissionsRepository;
 
-    @Autowired
-    private UserPermissionsRepository userPermissionsRepository;
+    public UserService(UserRepository userRepository, UserPermissionsRepository userPermissionsRepository) {
+        this.userRepository = userRepository;
+        this.userPermissionsRepository = userPermissionsRepository;
+    }
 
     public List<User> findAll(){
         return userRepository.findAll();
@@ -40,7 +42,7 @@ public class UserService {
     }
 
     public User update(UserRequestDTO user){
-        if (user.id() == null) throw new IllegalArgumentException("The user id cannot be null");
+        if (user.id().isEmpty()) throw new IllegalArgumentException("The user id cannot be null");
 
         User entity = findById(user.id().orElseThrow());
         entity.setName(user.name());
