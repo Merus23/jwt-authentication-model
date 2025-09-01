@@ -1,6 +1,7 @@
 package com.example.jwt_authentication_model.services;
 
 import com.example.jwt_authentication_model.dtos.request.UserPermissionRequestDTO;
+import com.example.jwt_authentication_model.exceptions.custom.BadRequestException;
 import com.example.jwt_authentication_model.models.UserPermission;
 import com.example.jwt_authentication_model.repositoties.UserPermissionsRepository;
 import org.springframework.stereotype.Service;
@@ -37,7 +38,7 @@ public class UserPermissionsService {
     }
 
     public UserPermission update(UserPermission permission) throws Exception{
-        if(permission.getId() == null) throw new IllegalArgumentException("O permission id cannot be null");
+        if(permission.getId() == null) throw new BadRequestException("O permission id cannot be null");
         UserPermission entity = findById(permission.getId());
 
         entity.setName(permission.getName());

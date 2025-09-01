@@ -1,6 +1,8 @@
 package com.example.jwt_authentication_model.services;
 
 import com.example.jwt_authentication_model.dtos.request.UserRequestDTO;
+import com.example.jwt_authentication_model.exceptions.custom.BadRequestException;
+import com.example.jwt_authentication_model.exceptions.custom.NotFoundContentException;
 import com.example.jwt_authentication_model.models.User;
 import com.example.jwt_authentication_model.models.UserPermission;
 import com.example.jwt_authentication_model.repositoties.UserPermissionsRepository;
@@ -9,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -26,7 +29,7 @@ public class UserService {
     }
 
     public User findById(Long id) {
-        return userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found!"));
+        return userRepository.findById(id).orElseThrow(() -> new NotFoundContentException("The user with the id " + id + " was not found."));
     }
 
     public User create(UserRequestDTO user){
@@ -36,15 +39,17 @@ public class UserService {
         entity.setEmail(user.email());
         entity.setPassword(user.password());
 
-        UserPermission permission = userPermissionsRepository.findByName(user.permission()).orElseThrow();
+        UserPermission permission = userPermissionsRepository.findByName(user.permission()).orElseThrow(() -> new NotFoundContentException("The permission" + user.permission() + "was not found."));
         entity.setPermission(permission);
         return userRepository.save(entity);
     }
 
     public User update(UserRequestDTO user){
-        if (user.id().isEmpty()) throw new IllegalArgumentException("The user id cannot be null");
+        User entity = findById(user.id().orElseThrow(
+                () -> new BadRequestException("The user id cannot be null. Please include the user id into your request.")));
 
-        User entity = findById(user.id().orElseThrow());
+        if (entity == null) throw new NotFoundContentException("The user with the id " + user.id().get() + " was not found.");
+
         entity.setName(user.name());
         entity.setEmail(user.email());
         entity.setPassword(user.password());
@@ -55,7 +60,7 @@ public class UserService {
     }
 
     public void delete (Long id){
-        User user = userRepository.findById(id).orElseThrow(()->new RuntimeException("User not found"));
+        User user = userRepository.findById(id).orElseThrow(()->new BadRequestException("The user with the id "+id+" was not found."));
         userRepository.delete(user);
     }
 

@@ -2,6 +2,7 @@ package com.example.jwt_authentication_model.services;
 
 import com.example.jwt_authentication_model.dtos.request.LoginRequestDTO;
 import com.example.jwt_authentication_model.dtos.request.UserRequestDTO;
+import com.example.jwt_authentication_model.exceptions.custom.ConflictErrorException;
 import com.example.jwt_authentication_model.infra.security.TokenService;
 import com.example.jwt_authentication_model.models.User;
 import com.example.jwt_authentication_model.models.UserPermission;
@@ -36,7 +37,7 @@ public class AuthenticationService {
 
     public String registerNewUserAndAuthenticate(UserRequestDTO userRequestDTO) throws Exception {
         if(this.userRepository.findByEmail(userRequestDTO.email()).isPresent()) {
-            throw new RuntimeException("Email already registered");
+            throw new ConflictErrorException("Email already registered");
         }
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(userRequestDTO.password());
