@@ -1,7 +1,11 @@
 package com.example.jwt_authentication_model.exceptions.custom;
 
-public class NotFoundException extends RuntimeException {
-    public NotFoundException(String message) {
+/**
+ * Throw this Exception when a resource was not found
+ * @Author Mateus Silva
+ * */
+public class NotFoundContentException extends RuntimeException {
+    public NotFoundContentException(String message) {
         super(message);
     }
 }
