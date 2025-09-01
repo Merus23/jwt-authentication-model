@@ -33,8 +33,8 @@ public class UserPermissionsController {
     }
 
     @PutMapping(value = "/")
-    public UserPermission updatePermission(@RequestBody UserPermission permission) throws Exception {
-        return userPermissionsService.update(permission);
+    public ResponseEntity<UserPermission> updatePermission(@RequestBody UserPermission permission) throws Exception {
+        return ResponseEntity.ok(userPermissionsService.update(permission));
     }
 
     @DeleteMapping("/{id}")

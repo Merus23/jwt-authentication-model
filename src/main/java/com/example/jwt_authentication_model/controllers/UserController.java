@@ -34,9 +34,7 @@ public class UserController {
     }
 
     @PutMapping(value = "/")
-    public User updateUser(@RequestBody UserRequestDTO user) throws Exception {
-        if (user.id().isEmpty()) throw new Exception("User id is required");
-
+    public User updateUser(@RequestBody UserRequestDTO user){
         return userService.update(user);
     }
 

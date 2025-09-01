@@ -27,11 +27,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody UserRequestDTO userRequestDTO) {
-        try {
-            return ResponseEntity.status(HttpStatus.CREATED).body(new LoginResponseDTO(authenticationService.registerNewUserAndAuthenticate(userRequestDTO)));
-        }catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+    public ResponseEntity<LoginResponseDTO> register(@RequestBody UserRequestDTO userRequestDTO) throws Exception {
+        return ResponseEntity.status(HttpStatus.CREATED).body(new LoginResponseDTO(authenticationService.registerNewUserAndAuthenticate(userRequestDTO)));
     }
 }
